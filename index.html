@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="indigo">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>زياد | منصة إدارة المهام الذكية</title>
+  
+  <!-- SEO & Social Meta Tags -->
+  <meta name="description" content="منصة زياد لإدارة المهام وتطبيق الأسيوطي للأجهزة المحمولة. تصميم عصري وفخم مع دعم الأوفلاين والأونلاين.">
+  <meta name="theme-color" content="#4f46e5" id="metaThemeColor">
+  
+  <!-- iOS Safari Specific Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="الأسيوطي">
+  <link rel="apple-touch-icon" href="./icon.svg">
+
+  <!-- PWA & Favicon -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+
+  <!-- Google Fonts: Cairo & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Ambient Light Orbs -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Fullscreen Celebration Canvas -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- App Wrapper -->
+  <div class="app-container">
+
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="header-content">
+        
+        <!-- Brand Info -->
+        <div class="brand-group">
+          <div class="app-logo">
+            <img src="./icon.svg" alt="شعار الأسيوطي وزياد" class="logo-img">
+            <span class="logo-pulse"></span>
+          </div>
+          <div class="brand-titles">
+            <div class="main-title-row">
+              <h1 class="web-brand">زياد <span class="brand-tag">PRO</span></h1>
+              <span class="brand-separator">•</span>
+              <span class="mobile-brand-pill">تطبيق <strong class="highlight">الأسيوطي</strong> للموبايل</span>
+            </div>
+            <p class="brand-subtitle">نظام ذكي متكامل للمهام • مخصص للآيفون، الأندرويد والكمبيوتر</p>
+          </div>
+        </div>
+
+        <!-- Header Actions: Theme Switcher, Install, Mode Toggle -->
+        <div class="header-actions">
+          
+          <!-- Palette Theme Switcher -->
+          <div class="theme-picker-group" title="تغيير نسق الألوان">
+            <span class="theme-icon">🎨</span>
+            <button class="theme-circle theme-indigo active" data-theme="indigo" title="نيلي ملكي"></button>
+            <button class="theme-circle theme-emerald" data-theme="emerald" title="زمردي تكنولوجي"></button>
+            <button class="theme-circle theme-rose" data-theme="rose" title="وردي سيبراني"></button>
+          </div>
+
+          <!-- Install Button (PWA) -->
+          <button id="installAppBtn" class="btn btn-install" title="تثبيت التطبيق على هاتفك أو حاسوبك">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+            </svg>
+            <span class="install-text">تثبيت الأسيوطي App</span>
+          </button>
+
+          <!-- Local vs Online Storage Pill -->
+          <div class="mode-pill-container" id="modeSelector" title="التبديل بين التخزين المحلي والسحابي">
+            <button class="mode-btn active" data-mode="local" id="modeLocalBtn">
+              <span class="dot"></span>
+              <span class="mode-label">محلي (Local)</span>
+            </button>
+            <button class="mode-btn" data-mode="online" id="modeOnlineBtn">
+              <span class="dot"></span>
+              <span class="mode-label">سحابي (Online)</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sync Status & Connection Bar -->
+      <div class="status-bar">
+        <div class="status-item connection-status" id="connectionStatus">
+          <span class="status-indicator online"></span>
+          <span class="status-text" id="connectionText">متصل بالإنترنت 🟢</span>
+        </div>
+        <div class="status-divider"></div>
+        <div class="status-item sync-info">
+          <span class="sync-label">حالة التخزين:</span>
+          <span class="sync-value" id="syncStatusText">محفوظ محلياً على الجهاز 💾</span>
+        </div>
+        <button id="syncNowBtn" class="btn-text-action" title="مزامنة فورية الآن مع السحابة">
+          <svg class="sync-icon" id="syncIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          <span id="syncBtnText">مزامنة سحابية</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="main-layout">
+
+      <!-- Productivity Dashboard Stats Card -->
+      <section class="stats-card">
+        <div class="stats-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">
+              <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 20V10M12 20V4M6 20v-6"/>
+              </svg>
+              لوحة الإنجاز ومستوى الإنتاجية
+            </h2>
+            <span class="stats-subtext">تتبع تقدمك اليومي والمهام العاجلة</span>
+          </div>
+          <div class="completion-pill-wrap">
+            <span class="completion-badge" id="completionRateText">0% مكتمل</span>
+          </div>
+        </div>
+
+        <!-- Visual Progress Bar -->
+        <div class="progress-bar-wrapper">
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- 4 Key Stat Badges -->
+        <div class="stats-grid">
+          <div class="stat-box stat-total">
+            <div class="stat-icon-bg">📋</div>
+            <div class="stat-info">
+              <span class="stat-number text-primary" id="totalTasksCount">0</span>
+              <span class="stat-title">إجمالي المهام</span>
+            </div>
+          </div>
+          <div class="stat-box stat-active">
+            <div class="stat-icon-bg">⏳</div>
+            <div class="stat-info">
+              <span class="stat-number text-warning" id="activeTasksCount">0</span>
+              <span class="stat-title">قيد التنفيذ</span>
+            </div>
+          </div>
+          <div class="stat-box stat-done">
+            <div class="stat-icon-bg">✨</div>
+            <div class="stat-info">
+              <span class="stat-number text-success" id="completedTasksCount">0</span>
+              <span class="stat-title">المهام المنجزة</span>
+            </div>
+          </div>
+          <div class="stat-box stat-urgent">
+            <div class="stat-icon-bg">🔥</div>
+            <div class="stat-info">
+              <span class="stat-number text-danger" id="urgentTasksCount">0</span>
+              <span class="stat-title">عاجلة جداً</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modern Task Creator Card -->
+      <section class="card creator-card">
+        <form id="taskForm" class="task-form" autocomplete="off">
+          
+          <div class="input-primary-group">
+            <div class="input-icon-wrapper">
+              <span class="input-left-icon">✍️</span>
+              <input 
+                type="text" 
+                id="taskTitleInput" 
+                class="task-input" 
+                placeholder="اكتب المهمة هنا... (مثال: إنهاء مراجعة الكود مع أخويا المهندس)" 
+                required
+                maxlength="150"
+              >
+            </div>
+            <button type="submit" class="btn btn-add" id="addTaskBtn">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>إضافة المهمة</span>
+            </button>
+          </div>
+
+          <!-- Secondary Row: Fast-Selection Pills for Category & Priority -->
+          <div class="form-options-row">
+            
+            <!-- Category Selector Pills -->
+            <div class="pill-group">
+              <span class="pill-label">التصنيف:</span>
+              <div class="segmented-pills" id="categoryPills">
+                <button type="button" class="seg-pill active" data-value="دراسة">🎓 دراسة / كلية</button>
+                <button type="button" class="seg-pill" data-value="مشاريع">🚀 مشاريع برمجية</button>
+                <button type="button" class="seg-pill" data-value="شغل">💼 عمل</button>
+                <button type="button" class="seg-pill" data-value="شخصي">👤 شخصي</button>
+              </div>
+              <input type="hidden" id="taskCategorySelect" value="دراسة">
+            </div>
+
+            <!-- Priority Selector Pills -->
+            <div class="pill-group">
+              <span class="pill-label">الأولوية:</span>
+              <div class="segmented-pills" id="priorityPills">
+                <button type="button" class="seg-pill priority-pill-urgent" data-value="عاجل">🔥 عاجل</button>
+                <button type="button" class="seg-pill priority-pill-med active" data-value="متوسط">⚡ متوسط</button>
+                <button type="button" class="seg-pill priority-pill-low" data-value="منخفض">🟢 عادي</button>
+              </div>
+              <input type="hidden" id="taskPrioritySelect" value="متوسط">
+            </div>
+
+            <!-- Due Date Picker -->
+            <div class="pill-group date-pill-group">
+              <span class="pill-label">الموعد:</span>
+              <input type="date" id="taskDueDateInput" class="custom-date-input">
+            </div>
+
+          </div>
+        </form>
+      </section>
+
+      <!-- Task List Container & Filters -->
+      <section class="tasks-section">
+        
+        <!-- Filter and Search Toolbar -->
+        <div class="tasks-toolbar">
+          
+          <!-- Search Box -->
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="بحث فوري في المهام أو التصنيف...">
+            <button id="clearSearchBtn" class="clear-search-btn" style="display: none;">✕</button>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">الكل (<span id="filterAllCount">0</span>)</button>
+            <button class="filter-tab" data-filter="active">النشطة (<span id="filterActiveCount">0</span>)</button>
+            <button class="filter-tab" data-filter="completed">المكتملة (<span id="filterCompletedCount">0</span>)</button>
+          </div>
+
+          <!-- Sort Select -->
+          <div class="sort-wrapper">
+            <select id="sortSelect" class="custom-select sort-select" title="ترتيب المهام">
+              <option value="newest">🕒 الأحدث أولاً</option>
+              <option value="oldest">⏳ الأقدم أولاً</option>
+              <option value="priority">🔥 حسب الأولوية</option>
+              <option value="dueDate">📅 حسب الموعد</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Tasks Dynamic List -->
+        <div class="tasks-list" id="tasksList">
+          <!-- Injected dynamically by app.js -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+          <div class="empty-icon-wrap">
+            <img src="./icon.svg" alt="خالي من المهام" class="empty-logo">
+          </div>
+          <h3 class="empty-title">لا توجد مهام حالياً!</h3>
+          <p class="empty-desc">أضف مهام جديدة أو استرجع المهام النموذجية لتنظيم وقتك باحترافية.</p>
+          <button id="restoreStarterTasksBtn" class="btn btn-secondary-action" style="margin-top: 10px;">
+            🔄 استرجاع المهام النموذجية المقترحة
+          </button>
+        </div>
+
+        <!-- Footer Data Actions (Backup, Import, Clean) -->
+        <div class="tasks-footer">
+          <div class="data-management-actions">
+            
+            <button id="exportDataBtn" class="btn-secondary-action" title="تصدير نسخة احتياطية من المهام">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+              </svg>
+              <span>تصدير نسخة (Backup)</span>
+            </button>
+
+            <label class="btn-secondary-action" title="استرجاع المهام من ملف">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              <span>استيراد ملف</span>
+              <input type="file" id="importDataInput" accept=".json" style="display: none;">
+            </label>
+
+            <button id="resetDemoTasksBtn" class="btn-secondary-action" title="تحميل مهام تانية كلية والمشروع النموذجية">
+              <span>💡 مهام تانية كلية المقترحة</span>
+            </button>
+
+            <button id="clearCompletedBtn" class="btn-secondary-action danger" title="مسح كل المهام المنتهية">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>حذف المكتملة</span>
+            </button>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Bottom Footer -->
+    <footer class="app-footer">
+      <div class="footer-badges">
+        <span class="tech-badge">PWA Ready 🚀</span>
+        <span class="tech-badge">Offline-First 💾</span>
+        <span class="tech-badge">Cloud Sync ☁️</span>
+        <span class="tech-badge">iOS & Android 📱</span>
+      </div>
+      <p class="footer-copy">
+        تم التطوير بحب • <strong>زياد (Web)</strong> & <strong>الأسيوطي (Mobile App)</strong>
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- iOS / Android Install Guide Modal -->
+  <div class="modal-overlay" id="installGuideModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <img src="./icon.svg" class="modal-app-icon" alt="شعار الأسيوطي">
+          <div>
+            <h3 class="modal-title">تثبيت تطبيق الأسيوطي</h3>
+            <p class="modal-sub">على هاتفك المحمول (iPhone & Android)</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeInstallModal">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="platform-instruction" id="iosInstructions">
+          <h4>📱 خطوات التثبيت على الآيفون (iOS - Safari):</h4>
+          <ol class="steps-list">
+            <li>اضغط على زر <strong>المشاركة (Share)</strong> <span class="ios-icon">⎋</span> في شريط Safari السفلي.</li>
+            <li>مرر الشاشة لأسفل واختر <strong>"إضافة إلى الصفحة الرئيسية" (Add to Home Screen)</strong> <span class="ios-icon">⊞</span>.</li>
+            <li>اضغط على زر <strong>"إضافة" (Add)</strong> في أعلى اليمين.</li>
+            <li>مبروك! ستجد تطبيق <strong>الأسيوطي</strong> بأيقونته الرسمية على شاشة هاتفك ويعمل كتطبيق متكامل دون إنترنت!</li>
+          </ol>
+        </div>
+
+        <div class="platform-instruction" id="androidInstructions">
+          <h4>🤖 خطوات التثبيت على الأندرويد (Android - Chrome):</h4>
+          <ol class="steps-list">
+            <li>اضغط على زر <strong>"تثبيت التطبيق"</strong> أدناه أو من القائمة (⋮).</li>
+            <li>اختر <strong>"Install / تثبيت"</strong>.</li>
+            <li>سينزل التطبيق باسم <strong>الأسيوطي</strong> كـ App مستقل على جهازك.</li>
+          </ol>
+          <button id="androidInstallTriggerBtn" class="btn btn-add btn-block" style="margin-top: 15px;">
+            تثبيت الأسيوطي على هاتفي الآن 🚀
+          </button>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary-action" id="dismissModalBtn">فهمت ذلك، إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Task Modal -->
+  <div class="modal-overlay" id="editTaskModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">تعديل تفاصيل المهمة</h3>
+        <button class="modal-close-btn" id="closeEditModal">✕</button>
+      </div>
+      <form id="editTaskForm" class="modal-body">
+        <input type="hidden" id="editTaskId">
+        <div class="form-group">
+          <label for="editTaskTitle" class="form-label">عنوان المهمة:</label>
+          <input type="text" id="editTaskTitle" class="task-input" required maxlength="150">
+        </div>
+        <div class="form-options-row" style="margin-top: 15px;">
+          <div class="option-pill">
+            <label for="editTaskCategory" class="option-label">التصنيف:</label>
+            <select id="editTaskCategory" class="custom-select">
+              <option value="دراسة">🎓 كلية / دراسة</option>
+              <option value="مشاريع">🚀 مشاريع برمجية</option>
+              <option value="شغل">💼 عمل / شغل</option>
+              <option value="شخصي">👤 شخصي</option>
+            </select>
+          </div>
+          <div class="option-pill">
+            <label for="editTaskPriority" class="option-label">الأولوية:</label>
+            <select id="editTaskPriority" class="custom-select">
+              <option value="عاجل">🔥 عاجل جداً</option>
+              <option value="متوسط">⚡ متوسط</option>
+              <option value="منخفض">🟢 منخفض</option>
+            </select>
+          </div>
+          <div class="option-pill">
+            <label for="editTaskDueDate" class="option-label">الموعد:</label>
+            <input type="date" id="editTaskDueDate" class="custom-date-input">
+          </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 20px;">
+          <button type="submit" class="btn btn-add">حفظ التعديلات</button>
+          <button type="button" class="btn btn-secondary-action" id="cancelEditBtn">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="./app.js"></script>
+</body>
+</html>
